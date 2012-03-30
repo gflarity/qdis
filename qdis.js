@@ -1,9 +1,17 @@
 var redis = require("redis");
 var restify = require('restify');
+var RestAPI = require('./lib/restapi.js');
 
+//globals so that closures only need to be created once
+var pub_queues = [];
+var map =  {};
+var global_channel;
 var sub_client = redis.createClient();
 var pub_client = redis.createClient();
-var server = restify.createServer();
+
+
+var rest_api = new RestAPI( map, pub_client, sub_client );
+
 
 sub_client.on("error", function (err) {
     console.log("sub error " + err);
@@ -14,42 +22,9 @@ pub_client.on("error", function (err) {
 });
 
 
-var subscribe = function( req, res, next ) {
 
-    var pub_queue = req.params.pub_queue;
-    var sub_queue = req.params.sub_queue;
-
-    var sub_queues = map[pub_queue];
-    
-    if ( ! sub_queues ) {
-            
-        //no subscriptions for this queue until, set things up
-        
-        map[pub_queue] = sub_queues = [ sub_queue ];  
-        sub_client.subscribe( pub_queue );
-        
-    }
-    else {
-        
-        //if it's not already in here, add it
-        if ( sub_queues.indexOf( sub_queue ) === -1 ) {            
-            sub_queues.push( sub_queue );                
-        }            
-    }
-    
-    //persist the subscription update  
-    //TODO only do this when a change is made
-    pub_client.hset( '_qdis_mappings', pub_queue, JSON.stringify( sub_queues ), function() { res.end() } );
-    
-};
-server.put('/subscribe/:sub_queue/:pub_queue', subscribe );
 
 var print_error = function (err, replies) { if ( err ) { console.log( "multi error!: " + err ) } };
-
-//globals so that closures only need to be created once
-var pub_queues = [];
-var map =  {};
-var global_channel;
 
 
 //this get's the pub queue's R
@@ -169,7 +144,4 @@ var on_connection_end = function() {
 sub_client.on( 'message', on_message );
 sub_client.on( 'connect', on_sub_client_connect );
 sub_client.on( 'end', on_connection_end );
-
-server.listen(6380, function() {
-  console.log('Rest API listening at %s',  server.url);
-});
+rest_api.listen(6380);

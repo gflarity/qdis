@@ -20,10 +20,23 @@ EXEC
 First you need to setup your subscription queue using the restful API:
 
 ```
-curl -X PUT http://localhost:1337/subscribe/pub_queue/sub_queue
+curl -X POST http://localhost:6380/subscribe/pub_queue/sub_queue
 ```
 
 This creates a 'queue' called sub_queue. Every message that gets published to pub_queue also gets published in 'sub_queue'.
 
 This means that there's a channel called 'sub_queue' can can be subcribed to via the Redis Pub/Sub commands. This publication tells you there's new things to be read from from the 'sub_queue' list.
+
+To unsubscribe:
+
+```
+curl -X POST http://localhost:6380/unsubscribe/pub_queue/sub_queue
+```
+
+To list subscriptions:
+
+```
+curl -X GET http://localhost:6380/subscriptions
+```
+
 
