@@ -22,8 +22,6 @@ pub_client.on("error", function (err) {
 });
 
 
-
-
 var print_error = function (err, replies) { if ( err ) { console.log( "multi error!: " + err ) } };
 
 
