@@ -10,8 +10,6 @@ function ok(expr, msg) {
 }
 
 
-
-
 suite('Basic Tests -');
 var complete = false;
 var qdis;
@@ -113,6 +111,90 @@ test('create subscriptions', function( done ) {
      
    
 });
+
+test( 'send 3 messages with no listeners', function( done ) {  
+    
+    var multi = redis_client.multi();
+    
+    multi.lpush( "pub", "first" );
+    multi.publish( "pub", 1 );
+    multi.lpush( "pub", "second" );
+    multi.publish( "pub", 1 );
+    multi.lpush( "pub", "third" );
+    multi.publish( "pub", 1 );
+    multi.exec( function( err, replies ) { 
+        if ( err ) { throw err }
+                
+        setTimeout( function() {
+            var multi2 =  redis_client.multi();        
+            multi2.llen( 'sub1').llen( 'sub2' ).llen( 'sub3');
+            multi2.exec( function( err, replies ) {
+            
+                assert( replies.length === 3 );
+                assert( replies[0] === 3 );
+                assert( replies[1] === 3 );
+                assert( replies[2] === 3 );
+                done();
+            } );        
+        }, 100 );
+    } );
+} );
+
+
+
+test( 'unsubscribe 1, send 3 more', function( done ) {  
+    var series = [];
+    
+    series.push( function( cb ) { 
+        var request_callback = function( err, res, body ) {
+            if ( err ) { throw err }        
+                var json = JSON.parse( body );     
+                return cb( null, json );
+            };
+        request.post('http://localhost:6380/unsubscribe/pub/sub1', request_callback );
+    } );
+    
+    series.push( function( json, cb ) {
+    
+       
+        
+        var multi = redis_client.multi();        
+        multi.lpush( "pub", "fourth" );
+        multi.publish( "pub", 1 );
+        multi.lpush( "pub", "fifth" );
+        multi.publish( "pub", 1 );
+        multi.lpush( "pub", "sixth" );
+        multi.publish( "pub", 1 );
+        multi.exec( function( err, replies ) { 
+            if ( err ) { throw err }
+
+            setTimeout( function() {
+                var multi2 =  redis_client.multi();        
+                multi2.llen( 'sub1').llen( 'sub2' ).llen( 'sub3');
+                multi2.exec( function( err, replies ) {
+                    
+                    assert( replies.length === 3 );
+                    assert( replies[0] === 3 );
+                    assert( replies[1] === 6 );
+                    assert( replies[2] === 6 );
+                    
+                    return cb( null );
+                } );        
+            }, 100 );
+        } );
+    } );
+    
+    series.push( function( cb ) {
+        done();
+    } );
+    async.waterfall( series );
+    
+    
+} );
+
+    
+    
+    
 
 test( 'teardown', function( done ) {
     qdis.kill();
