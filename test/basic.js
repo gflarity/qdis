@@ -18,7 +18,7 @@ var redis_client;
 test('Redis is listening', function( done ){
  var client;
  var on_connect = function( socket ) { done(); client.end();  };
- client = net.connect( 6379, on_connect );   
+    client = net.connect( 6379, "localhost",  on_connect );   
 });
 
 test('Flush Redis DB', function( done ) {
