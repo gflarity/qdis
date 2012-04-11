@@ -2,6 +2,8 @@
 
 QDis is a simple durable pub/sub queue built using Redis and Node.JS. 
 
+[![build status](https://secure.travis-ci.org/gflarity/qdis.png)](http://travis-ci.org/gflarity/qdis)
+
 # Publishing
 
 To publish you use the Redis API, first you start a transaction using MULTI then LPUSH to a list, then PUBLISH on a channel to announce something new is available. Run EXEC to execute the transaction.
