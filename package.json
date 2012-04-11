@@ -1,0 +1,24 @@
+{
+    "name" : "qdis",
+    "description" : "a simple durable fanout pub/sub queueing system built with Redis + Node.js",
+    "version" : "0.1.0",
+    "repository" : "https://github.com/gflarity/qdis.git",
+    "author" : "Geoff Flarity <geoff.flarity@gmail.com> (http://gflarity.github.com)",
+    "bin": { "qdis": "./bin/qdis" },
+    "main": "./qdis.js",
+    "scripts" : {
+        "test" : "./node_modules/.bin/mocha -u qunit -R tap"
+    },
+    "engines" : {
+        "node" : ">=0.4.0"
+    },
+    "devDependencies" : {
+        "mocha" : "~1.0.1"
+    },
+    "dependencies": {
+        "redis": "0.7.1",
+	"request" : "2.9.153",
+	"restify" : "1.3.0"
+    }, 
+    "license" : "MIT/X11"
+}
