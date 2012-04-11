@@ -2,7 +2,7 @@
 
 QDis is a simple durable pub/sub queue built using Redis and Node.JS. 
 
-[![build status](https://secure.travis-ci.org/gflarity/qdis.png)](http://travis-ci.org/gflarity/qdis)
+# Test Status [![build status](https://secure.travis-ci.org/gflarity/qdis.png)](http://travis-ci.org/gflarity/qdis)
 
 # Publishing
 
