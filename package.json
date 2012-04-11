@@ -1,7 +1,7 @@
 {
     "name" : "qdis",
     "description" : "a simple durable fanout pub/sub queueing system built with Redis + Node.js",
-    "version" : "0.1.0",
+    "version" : "0.1.1",
     "repository" : "https://github.com/gflarity/qdis.git",
     "author" : "Geoff Flarity <geoff.flarity@gmail.com> (http://gflarity.github.com)",
     "bin": { "qdis": "./bin/qdis" },
