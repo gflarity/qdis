@@ -27,7 +27,7 @@ This creates a 'queue' called sub_queue. Every message that gets published to pu
 
 This means that there's a [Redis Pub/Sub channel](http://redis.io/topics/pubsub) called 'sub_queue' which can be subscribed to. This publication is a notice which tells you there's something new to be read from from the 'sub_queue' [Redis list](http://redis.io/commands#list). You're expected to LPOP from the 'sub_queue' list whenever you're ready to consume another message. 
 
-Every once a while you'll probably want to check there's nothing to be consumed in 'sub_queue' regardless of publication notices. This should never happen if you're subscription socket is working.
+Every once and a while you'll probably want to check there's nothing to be consumed in 'sub_queue' regardless of publication notices. This should never happen if you're subscription socket is working.
 
 To unsubscribe:
 
