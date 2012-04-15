@@ -1,6 +1,12 @@
 # About 
 
-QDis is a simple durable pub/sub queue built using Redis and Node.JS. 
+QDis is a simple fanout pub/sub queue built using Redis and Node.JS. Simplicity and is it's goal and advantage. 
+
+
+# Performance
+
+It's able to handle multiple 1000s of messages per second on a MacBook Air when Redis isn't in Append-Only Log mode. I expect Append-Only Log performance to be dominated by the disk write times.
+
 
 # Publishing
 
@@ -15,7 +21,7 @@ PUBLISH pub 1
 EXEC
 ```
  
-# Subscribing
+# Subscriptions
 
 First you need to setup your subscription queue using the restful API:
 
@@ -41,4 +47,10 @@ To list subscriptions:
 curl -X GET http://localhost:6380/subscriptions
 ```
 
+# Durability
 
+Message durability is handled entirely inside Redis. It's a beautiful piece of software. Configure it for your desired level of durability. 
+
+# Scalability 
+
+One advantage of this simple approach is that it's very easy to customize and adapt QDis/Redis. Eventually I'll write a bridging daemon which can easily fanout across hosts. It should also be possible to use Redis replication to create emergency failover queues for high-availability.
