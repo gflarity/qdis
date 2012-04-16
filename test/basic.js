@@ -18,7 +18,7 @@ var redis_client;
 test('Redis is listening', function( done ){
  var client;
  var on_connect = function( socket ) { done(); client.end();  };
-    client = net.connect( 6379, "127.0.0.1",  on_connect );   
+    client = net.connect( 6379,  on_connect );   
 });
 
 test('Flush Redis DB', function( done ) {
@@ -193,10 +193,8 @@ test( 'unsubscribe 1, send 3 more', function( done ) {
 } );
 
     
-    
-    
-
 test( 'teardown', function( done ) {
+    complete = true;
     qdis.kill();
     done();
 } );
