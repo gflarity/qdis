@@ -2,6 +2,7 @@
 
 QDis is a simple fanout pub/sub queue built using Redis and Node.JS. Simplicity is it's goal and advantage. 
 
+#Test Status [![Build Status](https://secure.travis-ci.org/gflarity/qdis.png?branch=master)](http://travis-ci.org/gflarity/qdis)
 
 # Performance
 
