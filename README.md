@@ -1,4 +1,4 @@
-0# About 
+# About 
 
 QDis is a simple fanout pub/sub queue built using Redis and Node.JS. Simplicity is it's goal and advantage. 
 
@@ -8,7 +8,7 @@ QDis is a simple fanout pub/sub queue built using Redis and Node.JS. Simplicity 
 
 It's able to handle multiple 1000s of messages per second on a MacBook Air when Redis *isn't* in Append-Only Log mode. I expect Append-Only Log performance to be dominated by the disk write times.
 
-<embed src="https://raw.github.com/gflarity/qdis/master/QDisDiagram.svg" type="image/svg+xml" />
+<object data="https://raw.github.com/gflarity/qdis/master/QDisDiagram.svg" type="image/svg+xml"></object>
 
 # Publishing
 
